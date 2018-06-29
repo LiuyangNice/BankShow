@@ -9,8 +9,7 @@ public class Page2 : MonoBehaviour {
     Dictionary<string, Sprite[]> dic = new Dictionary<string, Sprite[]>();
 	// Use this for initialization
 	void Start () {
-        dic.Add("mans", mans);
-        dic.Add("woman", womans);
+       
         btns[0].onClick.AddListener(TexttureClick1);
         btns[1].onClick.AddListener(TexttureClick2);
         btns[2].onClick.AddListener(TexttureClick3);
@@ -26,9 +25,21 @@ public class Page2 : MonoBehaviour {
     }
     public void InstPage2(string gender)
     {
+        dic.Add("man", mans);
+        dic.Add("woman", womans);
         for (int i = 0; i < btns.Length; i++)
         {
-            btns[i].transform.GetComponent<Image>().sprite = dic[gender][i];
+            try
+            {
+                btns[i].transform.GetComponent<Image>().sprite = dic[gender][i];
+            }
+            catch (System.Exception)
+            {
+                Debug.Log(gender);
+                Debug.Log(dic.Count);
+                throw;
+            }
+            
         }
        
     }
@@ -38,7 +49,8 @@ public class Page2 : MonoBehaviour {
 	}
     void TexttureClick1()
     {
-        Manager.Inst.currentUser.PersonTexture = dic[Manager.Inst.currentUser.Gender][0];   
+        Manager.Inst.currentUser.PersonTexture = dic[Manager.Inst.currentUser.Gender][0];
+        Debug.Log("aaa");
     }
     void TexttureClick2()
     {

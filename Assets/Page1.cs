@@ -37,5 +37,6 @@ public class Page1 : MonoBehaviour {
     {
         Manager.Inst.pages[0].gameObject.SetActive(false);
         Manager.Inst.pages[1].gameObject.SetActive(true);
+        
     }
 }
