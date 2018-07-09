@@ -55,7 +55,7 @@ public class Manager : MonoBehaviour {
         {
             pages.Add(mainPage.GetChild(i));
         }
-        string[] mans = new string[4] { "cf_lover_fanli", "cf_lover_libai", "cf_lover_wuque", "cf_movie_yehua" };
+        string[] mans = new string[4] { "youtu_76171_20180626155321_1433", "cf_lover_libai", "cf_lover_wuque", "cf_movie_yehua" };
         string[] womans = new string[4] { "cf_fuwa_yasuiqian", "cf_lover_sunshang", "cf_lover_yuhuan", "cf_movie_fengjiu" };
         modolDic.Add("man", mans);
         modolDic.Add("woman", womans);

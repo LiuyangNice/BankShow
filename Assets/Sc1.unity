@@ -2181,7 +2181,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 4cf77e09db243b747831d505ce5920e6, type: 3}
   - {fileID: 21300000, guid: 4f79ac073a3ea4e459b18d5f682062c4, type: 3}
   TakePhotos: {fileID: 935499362}
-  waitTime: 10
+  waitTime: 3
   btns:
   - {fileID: 783564490}
   - {fileID: 778408501}
