@@ -245,6 +245,9 @@
     <Reference Include="TencentYoutuYunCsharpSDK">
       <HintPath>Assets/plugins/TencentYoutuYunCsharpSDK.dll</HintPath>
     </Reference>
+    <Reference Include="zxing.unity">
+      <HintPath>Assets/plugins/zxing.unity.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.Advertisements">
       <HintPath>C:/ProgramData/Unity/cache/packages/packages.unity.com/com.unity.ads@2.0.3/UnityEngine.Advertisements.dll</HintPath>
     </Reference>
@@ -265,14 +268,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="BankShow.Plugins.csproj">
+      <Project>{BB2E4ADC-7FB2-140A-7178-8EC06868D8A8}</Project>
+      <Name>BankShow.Plugins</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Assets\capture_video_from_camera_device.cs" />
     <Compile Include="Assets\Manager.cs" />
+    <Compile Include="Assets\MyQRcode.cs" />
+    <Compile Include="Assets\MyTool.cs" />
     <Compile Include="Assets\MyYouTu.cs" />
     <Compile Include="Assets\Page1.cs" />
     <Compile Include="Assets\Page2.cs" />
     <Compile Include="Assets\Page3.cs" />
     <Compile Include="Assets\Page4.cs" />
     <Compile Include="Assets\Pages.cs" />
+    <Compile Include="Assets\QiniuManager.cs" />
     <Compile Include="Assets\StateMachine.cs" />
     <Compile Include="Assets\Test.cs" />
   </ItemGroup>

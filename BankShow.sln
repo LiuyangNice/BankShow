@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankShow.Plugins", "BankShow.Plugins.csproj", "{BB2E4ADC-7FB2-140A-7178-8EC06868D8A8}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankShow", "BankShow.csproj", "{2F297B8C-88C6-28AE-BA32-B22ECC233848}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankShow.Editor", "BankShow.Editor.csproj", "{60928E53-E6F8-4E2D-AAAD-84A0D4AC59B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +13,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB2E4ADC-7FB2-140A-7178-8EC06868D8A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB2E4ADC-7FB2-140A-7178-8EC06868D8A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB2E4ADC-7FB2-140A-7178-8EC06868D8A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB2E4ADC-7FB2-140A-7178-8EC06868D8A8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2F297B8C-88C6-28AE-BA32-B22ECC233848}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2F297B8C-88C6-28AE-BA32-B22ECC233848}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F297B8C-88C6-28AE-BA32-B22ECC233848}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F297B8C-88C6-28AE-BA32-B22ECC233848}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60928E53-E6F8-4E2D-AAAD-84A0D4AC59B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60928E53-E6F8-4E2D-AAAD-84A0D4AC59B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60928E53-E6F8-4E2D-AAAD-84A0D4AC59B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60928E53-E6F8-4E2D-AAAD-84A0D4AC59B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -42,8 +42,10 @@ public class Page02 : State<Manager>
 {
     public string deviceName;
     WebCamTexture tex;
+    RectTransform rect;
     public override void EnterState(Manager target)
     {
+        rect = target.pages[1].Find("Target") as RectTransform;
         Manager.Inst.pages[1].gameObject.SetActive(true);
         target.TakePhotos.onClick.AddListener(TakePhoto);
         target.StartCoroutine(start());
@@ -97,10 +99,19 @@ public class Page02 : State<Manager>
         if (Application.HasUserAuthorization(UserAuthorization.WebCam))
         {
             WebCamDevice[] devices = WebCamTexture.devices;
-            deviceName = devices[0].name;
-            tex = new WebCamTexture(deviceName, 300, 350, 12);
-            tex.Play();
-            Manager.Inst.PImage.texture = tex;
+            if (devices.Length==0)
+            {
+                Debug.Log("相机未连接");
+
+            }
+            else
+            {
+                deviceName = devices[0].name;
+                tex = new WebCamTexture(deviceName, (int)rect.rect.width, (int)rect.rect.height, 12);
+                tex.Play();
+                Manager.Inst.PImage.texture = tex;
+            }
+           
         }
     }
 
@@ -110,7 +121,7 @@ public class Page02 : State<Manager>
     /// <returns>The texture.</returns>  
     public IEnumerator getTexture()
     {
-        RectTransform rect = target.pages[1].Find("Target") as RectTransform;
+        
         yield return new WaitForEndOfFrame();
         Texture2D t = new Texture2D((int)rect.rect.width, (int)rect.rect.height);
         t.ReadPixels(new Rect(rect.position.x, rect.position.y, (int)rect.rect.width, (int)rect.rect.height), 0, 0, false);
@@ -118,34 +129,11 @@ public class Page02 : State<Manager>
         //t.ReadPixels(new Rect(220, 180, 200, 180), 0, 0, false);  
         t.Apply();
         byte[] byt = t.EncodeToPNG();
-        yield return new WaitUntil(() => SaveLocalFile(Manager.Inst.currentUser.UName+".png", byt));
+        yield return new WaitUntil(() => MyTool.SaveLocalFile(Manager.Inst.currentUser.UName+".png", byt));
+        //QiniuManager.MyUpload(Application.persistentDataPath + "/" + Manager.Inst.currentUser.UName + ".png");
         tex.Play();
     }
-    bool SaveLocalFile(string fileName, byte[] data)
-
-    {
-
-        string path = Application.persistentDataPath + "/" + fileName;
-        Debug.Log(path);
-        if (File.Exists(path))
-
-            File.Delete(path);
-
-        FileStream fs = new FileStream(path, FileMode.CreateNew);
-
-        if (fs == null)
-
-            return false;
-
-        fs.Write(data, 0, data.Length);
-
-        fs.Close();
-
-        return true;
-
-
-
-    }
+   
 }
 public class Page03 : State<Manager>
 {
@@ -160,6 +148,8 @@ public class Page03 : State<Manager>
         target.btns[3].onClick.AddListener(TexttureClick4);
         for (int i = 0; i < target.btns.Length; i++)
         {
+
+            
             target.btns[i].onClick.AddListener(PageSwitch);
         }
         InstPage2(target.currentUser.Gender);
@@ -175,6 +165,11 @@ public class Page03 : State<Manager>
             item.onClick.RemoveAllListeners();
         }
         Manager.Inst.pages[2].gameObject.SetActive(false);
+    }
+    IEnumerator SavePic(Sprite pic)
+    {
+        byte[] by =pic.texture.EncodeToPNG();
+        yield return new WaitUntil(() => MyTool.SaveLocalFile(target.currentUser.UName + "2.png",by));
     }
     public void MyYoutu()
     {
@@ -206,17 +201,24 @@ public class Page03 : State<Manager>
     {
         Manager.Inst.currentUser.PersonTexture = target.btns[3].transform.GetComponent<Image>().sprite;
     }
+
     void PageSwitch()
     {
+        target.StartCoroutine(SavePic(Manager.Inst.currentUser.PersonTexture));
+        QiniuManager.MyUpload(Application.persistentDataPath + "/" + Manager.Inst.currentUser.UName + "2.png");
         target.myMachine.ChangeState(new Page04());
     }
 }
 
 public class Page04 : State<Manager>
 {
+    string url = "http://eastbank.ressvr.com/index.html?img:" + QiniuManager.qiniufileName;
+    //生成二维码
     public override void EnterState(Manager target)
     {
+        
         Manager.Inst.pages[3].gameObject.SetActive(true);
+        target.qrCode.texture = CreatQR.Btn_CreatQr(url);
         target.returnBtn.onClick.AddListener(PageSwitch);
         target.newPicture.sprite = Manager.Inst.currentUser.PersonTexture;
     }

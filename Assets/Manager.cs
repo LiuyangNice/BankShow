@@ -35,6 +35,7 @@ public class Manager : MonoBehaviour {
     /// </summary>
     public Button returnBtn;
     public Image newPicture;
+    public RawImage qrCode;
 
     private void Awake()
     {
@@ -49,6 +50,7 @@ public class Manager : MonoBehaviour {
     }
 	public void InstManager()
     {
+        QiniuManager.InstManager();
         currentPage = Page.page1;
         currentUser = new User();
         for (int i = 0; i < mainPage.childCount; i++)
