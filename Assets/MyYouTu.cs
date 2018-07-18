@@ -22,6 +22,59 @@ public class MyYouTU {
     {
         Conf.Instance().setAppInfo(AppID, SecretID, SecretKey, qq, Conf.Instance().YOUTU_END_POINT);
     }
+    /// <summary>
+    /// byte[] 作为参数
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="modolID"></param>
+    /// <returns></returns>
+    public static Sprite GetFaceMerge(byte[] data, string modolID)
+    {
+        Sprite s;
+        string y = doFaceMerge(data, modolID);
+
+        returnObj returnObj = JsonConvert.DeserializeObject<returnObj>(y);
+        if (returnObj.img_base64 != null)
+        {
+            s = Base64ToImg(returnObj.img_base64);
+        }
+        else
+        {
+            s = new Sprite();
+            Debug.Log(y);
+        }
+        return s;
+    }
+    public static string doFaceMerge(byte[] data, string ModleId)
+    {
+        //string result;
+        string pic= Convert.ToBase64String(data);
+        string expired = TencentYoutuYun.SDK.Csharp.Common.Utility.UnixTime(EXPIRED_SECONDS);
+        string methodName = "cgi-bin/pitu_open_access_for_youtu.fcg";
+        StringBuilder postData = new StringBuilder();
+        string pars = "\"img_data\":\"" + pic+ "\", \"rsp_img_type\": \"base64\",\"opdata\": [{\"cmd\": \"doFaceMerge\",\"params\": {\"model_id\":\"" + ModleId + "\" }}]";
+        //string pars = "\"app_id\":\"{0}\",\"image\":\"{1}\",\"mode\":{2}";
+        //pars = string.Format(pars, Conf.Instance().APPID, TencentYoutuYun.SDK.Csharp.Common.Utility.ImgBase64(image_path), isbigface);
+        postData.Append("{");
+        postData.Append(pars);
+        postData.Append("}");
+        string result = Http.HttpPost(methodName, postData.ToString(), Auth.appSign(expired, Conf.Instance().USER_ID));
+        //return result;
+        return result;
+
+    }
+
+
+
+
+
+    /// <summary>
+    /// 地址作为参数
+    /// </summary>
+    /// <param name="picUrl"></param>
+    /// <param name="modolID"></param>
+    /// <returns></returns>
+
     public static Sprite GetFaceMerge(string picUrl,string modolID)
     {
         Sprite s;
@@ -39,9 +92,11 @@ public class MyYouTU {
         }
         return s;
     }
+
     public static string doFaceMerge(string path, string ModleId)
     {
         //string result;
+
         string expired = TencentYoutuYun.SDK.Csharp.Common.Utility.UnixTime(EXPIRED_SECONDS);
         string methodName = "cgi-bin/pitu_open_access_for_youtu.fcg";
         StringBuilder postData = new StringBuilder();
@@ -56,6 +111,7 @@ public class MyYouTU {
         return result;
 
     }
+   
     public static string GetTimeStamp()
     {
         TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);

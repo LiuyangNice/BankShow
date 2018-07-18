@@ -9,7 +9,7 @@ public class Manager : MonoBehaviour {
     public Transform mainPage;
     public List<Transform> pages=new List<Transform>();
     public StateMachine<Manager> myMachine;
-
+    public byte[] picData;
     public Dictionary<string, string[]> modolDic =new Dictionary<string, string[]>();
 
     /// <summary>
@@ -65,7 +65,6 @@ public class Manager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         RectTransform rect = pages[1].Find("Target") as RectTransform;
-        Debug.Log(rect.position);
         myMachine.UpdateFsm();
 	}
     void PageUpdate(Page currentPage)

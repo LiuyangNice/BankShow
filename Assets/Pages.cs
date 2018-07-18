@@ -75,16 +75,18 @@ public class Page02 : State<Manager>
             if (a >= 0)
             {
                 target.timer.sprite = target.timerSps[a];
+                Debug.Log(a);
             }
             yield return new WaitForSeconds(1);
         }
+        Debug.Log("步骤一");
         yield return getTexture();
+        Debug.Log("步骤四");
         PageSwitch();
     }
     void Take()
     {
         target.StartCoroutine(getTexture());
-
     }
     void PageSwitch()
     {
@@ -114,7 +116,7 @@ public class Page02 : State<Manager>
            
         }
     }
-
+    
     /// <summary>  
     /// 获取截图  
     /// </summary>  
@@ -123,17 +125,22 @@ public class Page02 : State<Manager>
     {
         
         yield return new WaitForEndOfFrame();
+        Debug.Log("步骤二");
         Texture2D t = new Texture2D((int)rect.rect.width, (int)rect.rect.height);
         t.ReadPixels(new Rect(rect.position.x, rect.position.y, (int)rect.rect.width, (int)rect.rect.height), 0, 0, false);
         //距X左的距离        距Y屏上的距离  
         //t.ReadPixels(new Rect(220, 180, 200, 180), 0, 0, false);  
         t.Apply();
         byte[] byt = t.EncodeToPNG();
-        yield return new WaitUntil(() => MyTool.SaveLocalFile(Manager.Inst.currentUser.UName+".png", byt));
+        target.picData = byt;
+        //yield return new WaitUntil(() => MyTool.SaveLocalFile(Manager.Inst.currentUser.UName+".png", byt));
+        yield return null;
+        Debug.Log("步骤三");
+        //MyYoutu();
         //QiniuManager.MyUpload(Application.persistentDataPath + "/" + Manager.Inst.currentUser.UName + ".png");
-        tex.Play();
+        //tex.Play();
     }
-   
+  
 }
 public class Page03 : State<Manager>
 {
@@ -148,8 +155,6 @@ public class Page03 : State<Manager>
         target.btns[3].onClick.AddListener(TexttureClick4);
         for (int i = 0; i < target.btns.Length; i++)
         {
-
-            
             target.btns[i].onClick.AddListener(PageSwitch);
         }
         InstPage2(target.currentUser.Gender);
@@ -166,21 +171,31 @@ public class Page03 : State<Manager>
         }
         Manager.Inst.pages[2].gameObject.SetActive(false);
     }
-    IEnumerator SavePic(Sprite pic)
-    {
-        byte[] by =pic.texture.EncodeToPNG();
-        yield return new WaitUntil(() => MyTool.SaveLocalFile(target.currentUser.UName + "2.png",by));
-    }
     public void MyYoutu()
     {
         MyYouTU.Inst();
         for (int i = 0; i < 4; i++)
         {
-            Sprite sprite= MyYouTU.GetFaceMerge(Application.persistentDataPath  + "/" +  target.currentUser.UName+".png", target.modolDic[target.currentUser.Gender][i]);
+            Sprite sprite = MyYouTU.GetFaceMerge(target.picData, target.modolDic[target.currentUser.Gender][i]);
             target.btns[i].transform.GetComponent<Image>().sprite = sprite;
-            Debug.Log(i);
+            Debug.Log(target.btns[i]);
         }
     }
+    IEnumerator SavePic(Sprite pic)
+    {
+        byte[] by =pic.texture.EncodeToPNG();
+        yield return new WaitUntil(() => MyTool.SaveLocalFile(target.currentUser.UName + "2.png",by));
+    }
+    //public void MyYoutu1()
+    //{
+    //    MyYouTU.Inst();
+    //    for (int i = 0; i < 4; i++)
+    //    {
+    //        Sprite sprite= MyYouTU.GetFaceMerge(Application.persistentDataPath  + "/" +  target.currentUser.UName+".png", target.modolDic[target.currentUser.Gender][i]);
+    //        target.btns[i].transform.GetComponent<Image>().sprite = sprite;
+    //        Debug.Log(i);
+    //    }
+    //}
     public void InstPage2(string gender)
     {
 
@@ -212,7 +227,7 @@ public class Page03 : State<Manager>
 
 public class Page04 : State<Manager>
 {
-    string url = "http://eastbank.ressvr.com/index.html?img:" + QiniuManager.qiniufileName;
+    string url = "http://eastbank.ressvr.com/index.html?img=" + QiniuManager.qiniufileName;
     //生成二维码
     public override void EnterState(Manager target)
     {
